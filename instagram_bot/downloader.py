@@ -19,7 +19,6 @@ def download_videos(
     destination: Path,
     *,
     max_file_size_bytes: int,
-    cookies_file: Path | None = None,
     cancel_event: Event | None = None,
 ) -> list[Path]:
     """Download up to ten videos from one Instagram post into destination."""
@@ -49,9 +48,6 @@ def download_videos(
         "restrictfilenames": True,
         "progress_hooks": [stop_when_cancelled],
     }
-    if cookies_file:
-        options["cookiefile"] = str(cookies_file)
-
     with YoutubeDL(options) as downloader:
         downloader.download([url])
 

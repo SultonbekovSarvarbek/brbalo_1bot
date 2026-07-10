@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
-from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -40,7 +39,6 @@ class Settings:
     download_concurrency: int
     download_timeout_seconds: int
     max_file_size_bytes: int
-    instagram_cookies_file: Path | None
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -54,16 +52,10 @@ class Settings:
         if max_file_size_mb >= 50:
             raise ConfigError("MAX_FILE_SIZE_MB должен быть меньше лимита Telegram в 50 МБ")
 
-        cookies_value = os.getenv("INSTAGRAM_COOKIES_FILE", "").strip()
-        cookies_file = Path(cookies_value).expanduser() if cookies_value else None
-        if cookies_file and not cookies_file.is_file():
-            raise ConfigError(f"файл cookies не найден: {cookies_file}")
-
         return cls(
             telegram_bot_token=token,
             allowed_chat_ids=_chat_ids(),
             download_concurrency=_positive_int("DOWNLOAD_CONCURRENCY", 2),
             download_timeout_seconds=_positive_int("DOWNLOAD_TIMEOUT_SECONDS", 180),
             max_file_size_bytes=max_file_size_mb * 1024 * 1024,
-            instagram_cookies_file=cookies_file,
         )

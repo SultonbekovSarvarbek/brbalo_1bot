@@ -105,7 +105,6 @@ async def _download_and_send(
                         url,
                         Path(directory),
                         max_file_size_bytes=settings.max_file_size_bytes,
-                        cookies_file=settings.instagram_cookies_file,
                         cancel_event=cancel_event,
                     )
                 )
