@@ -120,9 +120,32 @@ INSTAGRAM_COOKIES_FILE=/полный/путь/cookies.txt
 ```
 
 Cookies дают доступ к аккаунту: храните файл как пароль и не коммитьте его.
-Для Docker файл надо отдельно примонтировать в контейнер и указать контейнерный
-путь. Скачивайте и пересылайте только те материалы, на использование которых у
-вас есть разрешение.
+Скачивайте и пересылайте только те материалы, на использование которых у вас
+есть разрешение.
+
+Для Docker создайте защищённую папку и положите туда файл:
+
+```bash
+mkdir -p secrets
+chmod 700 secrets
+cp /путь/к/cookies.txt secrets/instagram-cookies.txt
+chmod 600 secrets/instagram-cookies.txt
+```
+
+В `.env` укажите путь **внутри контейнера**:
+
+```dotenv
+INSTAGRAM_COOKIES_FILE=/run/secrets/instagram-cookies.txt
+```
+
+Запускайте Docker с дополнительной конфигурацией:
+
+```bash
+docker compose -f compose.yaml -f compose.cookies.yaml up -d --build --force-recreate
+```
+
+Файл `secrets/instagram-cookies.txt` подключается только для чтения и исключён
+из Git и контекста сборки Docker.
 
 ## Проверка
 

@@ -1,0 +1,9 @@
+services:
+  bot:
+    volumes:
+      - type: bind
+        source: ./secrets/instagram-cookies.txt
+        target: /run/secrets/instagram-cookies.txt
+        read_only: true
+        bind:
+          create_host_path: false
