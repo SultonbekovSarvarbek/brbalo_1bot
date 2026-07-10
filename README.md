@@ -50,6 +50,45 @@ python main.py
 Процесс должен работать постоянно. После строки `Starting Instagram Telegram bot`
 добавьте бота в группу и отправьте ссылку на Reel или публикацию.
 
+## Запуск на сервере через PM2
+
+На сервере должны быть Python 3.10+, `python3-venv`, `ffmpeg`, Git и PM2.
+После подключения по SSH:
+
+```bash
+git clone https://github.com/SultonbekovSarvarbek/brbalo_1bot.git
+cd brbalo_1bot
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+cp .env.example .env
+nano .env
+```
+
+В `nano` укажите новый токен в `TELEGRAM_BOT_TOKEN`, сохраните файл и запустите:
+
+```bash
+pm2 start ecosystem.config.cjs
+pm2 save
+pm2 startup
+```
+
+Команда `pm2 startup` напечатает ещё одну команду с `sudo` — выполните её, затем
+ещё раз выполните `pm2 save`. Полезные команды:
+
+```bash
+pm2 status
+pm2 logs brbalo-instagram-bot
+pm2 restart brbalo-instagram-bot
+```
+
+Чтобы установить обновления из GitHub:
+
+```bash
+git pull
+.venv/bin/pip install -r requirements.txt
+pm2 restart brbalo-instagram-bot
+```
+
 ## Запуск в Docker
 
 После создания `.env`:
