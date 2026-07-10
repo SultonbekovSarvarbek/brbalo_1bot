@@ -1,5 +1,7 @@
 services:
   bot:
+    environment:
+      INSTAGRAM_COOKIES_FILE: /run/secrets/instagram-cookies.txt
     volumes:
       - type: bind
         source: ./secrets/instagram-cookies.txt

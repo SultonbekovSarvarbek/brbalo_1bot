@@ -132,12 +132,6 @@ cp /путь/к/cookies.txt secrets/instagram-cookies.txt
 chmod 600 secrets/instagram-cookies.txt
 ```
 
-В `.env` укажите путь **внутри контейнера**:
-
-```dotenv
-INSTAGRAM_COOKIES_FILE=/run/secrets/instagram-cookies.txt
-```
-
 Запускайте Docker с дополнительной конфигурацией:
 
 ```bash
@@ -145,7 +139,8 @@ docker compose -f compose.yaml -f compose.cookies.yaml up -d --build --force-rec
 ```
 
 Файл `secrets/instagram-cookies.txt` подключается только для чтения и исключён
-из Git и контекста сборки Docker.
+из Git и контекста сборки Docker. Дополнительная конфигурация сама задаёт путь
+`/run/secrets/instagram-cookies.txt` внутри контейнера.
 
 ## Проверка
 
